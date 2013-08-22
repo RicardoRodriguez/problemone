@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE digester-rules PUBLIC
+  "-//Apache Commons //DTD digester-rules XML V1.0//EN"
+  "http://commons.apache.org/digester/dtds/digester-rules-3.0.dtd">
+
+<digester-rules>
+  <pattern value="stations/station">
+    <object-create-rule classname="Station"/>
+    <set-properties-rule/>               
+    <set-next-rule methodname="addStation" paramtype="Station"/>
+  </pattern>
+
+
+</digester-rules>
