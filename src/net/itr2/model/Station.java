@@ -4,18 +4,20 @@ import java.io.Serializable;
 
 public class Station implements Serializable{
 
-	/**
-	 * Esta classe Ž serializada.
-	 */
 	private static final long serialVersionUID = 2238865525870096459L;
 	private String idStation;
-	private String Description;
+	private String description;
 	
 	public Station() {
 		this.idStation = "";
-		this.Description = "";
+		this.description = "";
 	}
 
+	public Station(String idStation,String description) {
+		this.idStation = idStation;
+		this.description = description;
+	}
+	
 	public String getIdStation() {
 		return idStation;
 	}
@@ -25,12 +27,17 @@ public class Station implements Serializable{
 	}
 
 	public String getDescription() {
-		return Description;
+		return description;
 	}
 
 	public void setDescription(String description) {
-		Description = description;
+		this.description = description;
 	}
 
-	
+	@Override
+	public boolean equals(Object obj) {
+		Station station  = (Station) obj;
+		return this.idStation == station.idStation;
+	}
+
 }

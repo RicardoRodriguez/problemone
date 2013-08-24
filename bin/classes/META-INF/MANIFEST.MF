@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Built-By: ricardorodriguez
+Build-Jdk: 1.6.0_51
+Main-Class: net.itr2.main.Start
+Created-By: Maven Integration for Eclipse
+

@@ -2,6 +2,7 @@ package net.itr2.util;
 
 import net.itr2.exception.Itr2ParameterException;
 import net.itr2.exception.Itr2ViewException;
+import net.itr2.model.Station;
 
 public class Util {
 
@@ -9,8 +10,12 @@ public class Util {
 		// Esta Classe Ž totalmente est‡tica.
 	}
 
-	public static boolean isEmpty(String value){
-		return (value == null || value.length() == 0);
+	public static boolean isEmpty(Station value){
+		return (value == null || value.getIdStation().isEmpty());
+	}
+
+	public static void logger(String message){
+		System.out.println(message);
 	}
 	
 	public static int toInteger(String value) throws Itr2ViewException{

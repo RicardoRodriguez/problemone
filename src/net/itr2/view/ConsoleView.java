@@ -5,9 +5,12 @@
 package net.itr2.view;
 
 import java.io.Console;
+import java.util.List;
 
 import net.itr2.exception.Itr2ViewException;
+import net.itr2.model.Station;
 import net.itr2.util.Util;
+
 
 /**
  * @author ricardorodriguez
@@ -20,8 +23,11 @@ public class ConsoleView implements ViewFactoryInterface {
 	
 	private static final int DEFAULT_TIME=200;
 	private Console console;
-	private String from;
-	private String to;
+	private Station from;
+	private Station to;
+	private ProcessOptionInterface processOptionView;
+	
+
 	/**
 	 * 
 	 */
@@ -31,8 +37,15 @@ public class ConsoleView implements ViewFactoryInterface {
 			throw new Itr2ViewException("Execute este programa a partir do diretorio bin em seu terminal." +
 					"");
 		}
+		this.processOptionView = new ProcessOptionView();
+		this.clearFromTo();
 	}
-	
+
+	/**
+	 * Singleton da tela.
+	 * @return Objeto Tela.
+	 * @throws Itr2ViewException Não foi possivel carregar a tela.
+	 */
 	public static ViewFactoryInterface getInstance() throws Itr2ViewException{
 
 		if (instance == null) {
@@ -41,64 +54,48 @@ public class ConsoleView implements ViewFactoryInterface {
 		return instance;
 	}
 
+	/**
+	 * Mostra a tela
+	 */
 	public void showScreen() throws Itr2ViewException {
-	   clearScreen();
-	   showOriginDestiny();
-	   showMenu();
-	   readOption();
+		clearScreen();
+		showOriginDestiny();
+		showMenu();
+		readOption();
 	}
 
+	/**
+	 * Mostra a origem e destino na tela.
+	 */
 	private void showOriginDestiny() {
-		console.writer().println("Origem do trajeto  :" + 
-				(Util.isEmpty(from) ? "Nao definido":from ));
-	
-		console.writer().println("Destino do trajeto :" + 
-				(Util.isEmpty(from) ? "Nao definido" : to ));
-	
+		console.writer().println("Origem  da viagem: " + 
+				(this.from.getDescription().isEmpty() ? "Nao definido":this.from.getDescription() ));
 
+		console.writer().println("Destino da viagem: " + 
+				(this.to.getDescription().isEmpty()  ? "Nao definido" : this.to.getDescription() ));
 	}
 
-	private void showStationList(String stationId){
-		
-	}
-	
-	private void showRoute() {
-		// TODO Auto-generated method stub
-
-	}
-
-
-
-	private void showPaths() {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void showBestPath() {
-		// TODO Auto-generated method stub
-
-	}
-	
 	public void clearFromTo() throws Itr2ViewException{
-		this.from = null;
-		this.to = null;
+		this.from 	= new Station();
+		this.to 	= new Station();
 		this.showScreen();
-		
+
 	}
-	
+
 	public void doExit() {
 		System.exit(-1);
 	}
 	
+	/**
+	 * Mostra o meu de opções da tela.
+	 */
 	private void showMenu(){
-	
+
 		printBlankLines(2);
-		
+
 		console.writer().println(" Escolha uma das opcoes abaixo  ");
 		console.writer().println(" =============================== ");
-		
 		printBlankLines(1);
-		
 		console.writer().println(" 1. Definir origem da viagem");
 		console.writer().println(" 2. Definir destino da viagem ");
 		console.writer().println(" 3. Distancia entre origem e destino");
@@ -108,37 +105,43 @@ public class ConsoleView implements ViewFactoryInterface {
 		printBlankLines(1);
 		console.writer().println(" 0. Encerrar o programa");
 		printBlankLines(1);		
-		
+
 	}
 
+	/**
+	 * Lê a opção selecionada.
+	 */
 	private void readOption(){
 		String readLine = System.console().readLine();
 		try {
 			int option = Util.toInteger(readLine);
-			ProcessOptionView processOptionView = ProcessOptionView.getInstance();
-			processOptionView.processOption(this,option);
-			
+			this.processOptionView.processOption(this,option);
+
 		}catch (Itr2ViewException e){
 			this.reloadOptions(e.getMessage());
 			readOption(); 
 		}
 
 	}
-	
+	/**
+	 * 
+	 * Recarrega a tela de opcoes 
+	 * @param message
+	 */
 	private void reloadOptions(String message){
-		 console.writer().println(message + ". Pressione <Enter> para continuar." );
-		 System.console().readLine();
-		 try {
+		console.writer().println(message + ". Pressione <Enter> para continuar." );
+		System.console().readLine();
+		try {
 			this.showScreen();
 		} catch (Itr2ViewException e) {
 			e.printStackTrace();
 		}
 
 	}
-	
-	/*
-	 * Limpa o conteudo da tela
-	 * sleepTime Tempo de adormecimento da tela.
+
+	/**
+	 * Limpa o conteudo da tela.
+	 * @throws Itr2ViewException
 	 */
 	private void clearScreen() throws Itr2ViewException{
 		console.writer().print(ESC + "[2J");
@@ -149,16 +152,80 @@ public class ConsoleView implements ViewFactoryInterface {
 			throw new Itr2ViewException("Erro de interrupção. Mensagem do Sistema:"+ e.getMessage());
 		}
 	}
-	
-	/*
-	 * Immprime linhas em branco
-	 * quantity Quantidade de linhas em branco.
+	/**
+	 * Imprime linhas em branco.
+	 * @param quantity numero de linhas
 	 */
-	
 	private void printBlankLines(int quantity){
 		for (int i =0 ; i < quantity ; ++i){
 			console.writer().println();
 		}
 	}
+
+	public void readOrigin(List<Station> stations)
+			throws Itr2ViewException {
+		this.from = processReadLine(stations, this.from, this.to);
+		this.showScreen();
+
+	}
+  
+	public void readDestiny(List<Station> stations)
+			throws Itr2ViewException {
+		this.to = processReadLine(stations, this.to, this.from);
+		this.showScreen();
+	}
+
+	/**
+	 * Processa a leitura da tela da opção origem / destino
+	 * @param stations - Lista de estações
+	 * @param selected - Estação selecionada
+	 * @param notSelected - Estação a ser ignorada.
+	 * @throws Itr2ViewException Não voi possivel ler o aplicativo
+	 */
+	private Station processReadLine(List<Station> stations,Station selected, Station notSelected) throws Itr2ViewException {
+		boolean notValidate = true;
+		while (notValidate) {
+			printBlankLines(1);
+			showStations(stations,notSelected);
+			printBlankLines(1);
+			String readLine = System.console().readLine();
+			selected = checkStation(stations,readLine.toUpperCase());
+			notValidate = (selected.getIdStation().isEmpty());
+		}
+		return selected;
+
+	}
 	
+	/**
+	 * Verifica a opção de estação escolhida
+	 * @param stations Lista de Estações
+	 * @param id - opção escolhida
+	 * @return Estação selecionada
+	 */
+	private Station checkStation(List<Station> stations,String id){
+		Station result = new Station();
+		for(Station station: stations){
+			if (id.equals(station.getIdStation())){
+				result = station;
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * Mostra as opções de estações exceto uma já escolhida
+	 * @param stations - Lista de estações
+	 * @param stationOut - Estação para ser ignorada.
+	 */
+	private void showStations(List<Station> stations, Station stationOut) {
+		for (Station station:stations){
+			if (! station.equals(stationOut)) {
+				console.writer().println(station.getIdStation()+ " - " + station.getDescription() );
+			}
+		}
+	}
+
+
+
+
 }

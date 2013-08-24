@@ -1,11 +1,20 @@
 package net.itr2.model;
 
-public class Route {
+import java.io.Serializable;
 
+public class Route implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6904394533489807596L;
+	
 	private String idRoute;
 	private String origin;
 	private String destiny;
 	private long   distance;
+	
+
 	
 	public Route() {
 		this.idRoute 	= "";
@@ -14,6 +23,14 @@ public class Route {
 		this.distance	= 0;
 	}
 
+	public Route(String idRoute, String origin, String destiny,long distance) {
+		this.idRoute 	= idRoute;
+		this.origin		= origin;
+		this.destiny	= destiny;
+		this.distance	= distance;
+	}
+
+	
 	public String getIdRoute() {
 		return idRoute;
 	}
@@ -46,6 +63,5 @@ public class Route {
 		this.distance = distance;
 	}
 
-	
 	
 }

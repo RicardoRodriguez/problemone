@@ -1,6 +1,6 @@
 package net.itr2.connection;
 
-import java.util.Collection;
+import java.util.List;
 
 import net.itr2.exception.Itr2ConnectionException;
 import net.itr2.model.Route;
@@ -10,10 +10,10 @@ public interface ConnectionFactory {
 
 	/**
 	 * Carrega a lista de estaçoes cadastradas
-	 * @return Colecao de estacoes
+	 * @return Lista de estacoes
 	 * @throws Itr2ConnectionException
 	 */
-	public Collection<Station> doGetStations() throws Itr2ConnectionException;
+	public List<Station> doGetStations() throws Itr2ConnectionException;
 	
 	
 	/**
@@ -21,7 +21,6 @@ public interface ConnectionFactory {
 	 * @return Colecao de rotas
 	 * @throws Itr2ConnectionException
 	 */
-	public Collection<Route>  doGetRoutes() throws Itr2ConnectionException;
-	
+	public List<Route>  doGetRoutes() throws Itr2ConnectionException;
 	
 }
