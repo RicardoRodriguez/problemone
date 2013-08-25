@@ -3,6 +3,7 @@ package net.itr2.view;
 import java.util.List;
 
 import net.itr2.exception.Itr2ViewException;
+import net.itr2.model.Route;
 import net.itr2.model.Station;
 
 public interface ViewFactoryInterface {
@@ -36,5 +37,13 @@ public interface ViewFactoryInterface {
 	 * @throws Itr2ViewException Não foi possivel ler a estações
 	 */
 	public void readDestiny(List<Station> stations) throws Itr2ViewException;
+
+	public void showDistance(String message);
+	
+	public void showTableRoute(List<Route> routes) throws Itr2ViewException;
+	
+	public Station getFrom();
+	
+	public Station getTo();
 	
 }

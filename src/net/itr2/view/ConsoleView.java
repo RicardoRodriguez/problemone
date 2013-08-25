@@ -8,6 +8,7 @@ import java.io.Console;
 import java.util.List;
 
 import net.itr2.exception.Itr2ViewException;
+import net.itr2.model.Route;
 import net.itr2.model.Station;
 import net.itr2.util.Util;
 
@@ -99,9 +100,10 @@ public class ConsoleView implements ViewFactoryInterface {
 		console.writer().println(" 1. Definir origem da viagem");
 		console.writer().println(" 2. Definir destino da viagem ");
 		console.writer().println(" 3. Distancia entre origem e destino");
-		console.writer().println(" 4. Mostrar o melhor caminho");
-		console.writer().println(" 5. Mostrar todos os caminhos");
+		console.writer().println(" 4. Mostrar o melhor caminho  entre origem e destino");
+		console.writer().println(" 5. Mostrar todos os caminhos entre origem e destino");
 		console.writer().println(" 6. Limpar origem e destino");
+		console.writer().println(" 7. Mostrar a tabela de rotas");
 		printBlankLines(1);
 		console.writer().println(" 0. Encerrar o programa");
 		printBlankLines(1);		
@@ -129,8 +131,7 @@ public class ConsoleView implements ViewFactoryInterface {
 	 * @param message
 	 */
 	private void reloadOptions(String message){
-		console.writer().println(message + ". Pressione <Enter> para continuar." );
-		System.console().readLine();
+		this.showMessage(message);
 		try {
 			this.showScreen();
 		} catch (Itr2ViewException e) {
@@ -186,10 +187,10 @@ public class ConsoleView implements ViewFactoryInterface {
 		boolean notValidate = true;
 		while (notValidate) {
 			printBlankLines(1);
-			showStations(stations,notSelected);
+			this.showStations(stations,notSelected);
 			printBlankLines(1);
 			String readLine = System.console().readLine();
-			selected = checkStation(stations,readLine.toUpperCase());
+			selected = checkStation(stations,readLine.toUpperCase(),notSelected);
 			notValidate = (selected.getIdStation().isEmpty());
 		}
 		return selected;
@@ -202,8 +203,11 @@ public class ConsoleView implements ViewFactoryInterface {
 	 * @param id - opção escolhida
 	 * @return Estação selecionada
 	 */
-	private Station checkStation(List<Station> stations,String id){
+	private Station checkStation(List<Station> stations,String id, Station notSelected){
 		Station result = new Station();
+	
+		id = id.equalsIgnoreCase(notSelected.getIdStation()) ? "":id;
+		
 		for(Station station: stations){
 			if (id.equals(station.getIdStation())){
 				result = station;
@@ -223,6 +227,47 @@ public class ConsoleView implements ViewFactoryInterface {
 				console.writer().println(station.getIdStation()+ " - " + station.getDescription() );
 			}
 		}
+	}
+
+	private void showMessage(String message){
+		this.printBlankLines(1);
+		console.writer().println(message);
+		this.pause();
+		try {
+			this.showScreen();
+		} catch (Itr2ViewException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void pause(){
+		this.printBlankLines(1);
+		console.writer().println("Pressione <Enter> para continuar." );
+		System.console().readLine();
+	}
+	
+	public Station getFrom() {
+		return from;
+	}
+
+	public Station getTo() {
+		return to;
+	}
+
+	public void showDistance(String message){
+		showMessage(message);
+	}
+
+	public void showTableRoute(List<Route> routes) throws Itr2ViewException {
+		this.printBlankLines(1);
+		String line;
+		for (Route route: routes){
+			line = " da Estacao " + route.getOrigin() + " para a Estacao " +
+						route.getDestiny() + ": Distancia-> " + route.getDistance();
+			console.writer().println(line);
+		}
+		this.pause();
+		this.showScreen();
 	}
 
 

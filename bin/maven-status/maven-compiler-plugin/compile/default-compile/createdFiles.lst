@@ -9,7 +9,9 @@ net/itr2/exception/Itr2ViewException.class
 net/itr2/exception/Itr2ConnectionException.class
 net/itr2/control/StationControllerInterface.class
 net/itr2/view/ConsoleView.class
+net/itr2/control/RouteControllerInterface.class
 net/itr2/util/Util.class
+net/itr2/control/RouteController.class
 net/itr2/connection/ConnectionFactory.class
 net/itr2/view/ViewFactoryInterface.class
 net/itr2/test/ConnectionMemoryTest.class
