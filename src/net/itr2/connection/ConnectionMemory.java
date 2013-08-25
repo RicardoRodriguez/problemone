@@ -1,9 +1,6 @@
 package net.itr2.connection;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import net.itr2.exception.Itr2ConnectionException;
@@ -35,6 +32,19 @@ public class ConnectionMemory implements ConnectionFactory {
 		return result;
 	}
 
+	public Station doGetStation(String idStation) throws Itr2ConnectionException{
+		List<Station> stations = this.doGetStations();
+		Station result = new Station();
+		result.setDescription("Nao encontrei a estaçao: "+idStation);
+		for (Station station: stations){
+			if (station.getIdStation().equals(idStation)){
+				result = station;
+				break;
+			}
+		}
+		return result;
+	}
+
 	public List<Route> doGetRoutes() throws Itr2ConnectionException {
 		if (this.loadData == null){
 			this.openDatabase();
@@ -43,9 +53,9 @@ public class ConnectionMemory implements ConnectionFactory {
 
 		if (result.isEmpty())
 			throw new Itr2ConnectionException("Não foi possivel carregar a tabela Routes de LoadDataMemory");
-	
+
 		return result;
 
-	 }
+	}
 
 }

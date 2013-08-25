@@ -36,11 +36,11 @@ public class ProcessOptionView implements ProcessOptionInterface{
 		case 3:
 			this.showDistance(viewer);	
 			break;
-			
+
 		case 6:
 			viewer.clearFromTo();
 			break;
-			
+
 		case 7:
 			viewer.showTableRoute(this.getAllRoutes());
 			break;	
@@ -52,21 +52,33 @@ public class ProcessOptionView implements ProcessOptionInterface{
 
 	private List<Route> getAllRoutes() throws Itr2ViewException{
 		RouteControllerInterface route = new RouteController();
-		return route.getAllRoutes();
+		List<Route> result = new ArrayList<Route>();
+		
+		try {
+				result = route.getAllRoutes();
+		} catch (Itr2ConnectionException e) {
+			new Itr2ViewException("Erro de conexao: " + e.getMessage());
+		}
+		
+		return result;
 	}
-	
+
 	private void showDistance(ViewFactoryInterface viewer) throws Itr2ViewException{
 		RouteControllerInterface route = new RouteController();
 		String result;
 		if (viewer.getFrom().getIdStation().isEmpty() || viewer.getTo().getIdStation().isEmpty()) {
 			result = "Opcao Invalida. Informe primeiro estacoes origem e destino";
+			viewer.showDistance(result);
 		} else {
-			result = route.showRoute(viewer.getFrom(), viewer.getTo());
+			try {
+				result = route.showRoute(viewer.getFrom(), viewer.getTo());
+			} catch (Itr2ConnectionException e) {
+				new Itr2ViewException("Erro de conexao: " + e.getMessage());	
+			}
+
 		}
- 		
-		viewer.showDistance(result);
 	}
-	
+
 	private List<Station> getStationList() throws Itr2ViewException{
 		StationControllerInterface controller = new StationController();
 		List <Station> result = new ArrayList<Station>();

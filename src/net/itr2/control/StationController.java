@@ -9,13 +9,17 @@ import net.itr2.model.Station;
 
 public class StationController implements StationControllerInterface {
 
+	private ConnectionFactory connection = new ConnectionMemory();
+	
 	public StationController() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public List<Station> getStations() throws Itr2ConnectionException {
-		ConnectionFactory connection = new ConnectionMemory();
 		return connection.doGetStations();
 	}
 
+	public Station getStation(String idStation) throws Itr2ConnectionException {
+		return connection.doGetStation(idStation);
+	}
 }

@@ -23,4 +23,12 @@ public interface ConnectionFactory {
 	 */
 	public List<Route>  doGetRoutes() throws Itr2ConnectionException;
 	
+	/**
+	 * Retorna a estação a partir do seu id
+	 * @param idStation - identificador da estação
+	 * @return Objeto Station
+	 * @throws Itr2ConnectionException
+	 */
+	public Station doGetStation(String idStation) throws Itr2ConnectionException;
+	
 }

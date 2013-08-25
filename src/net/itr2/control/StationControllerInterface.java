@@ -13,4 +13,12 @@ public interface StationControllerInterface {
 	 * @throws Itr2ConnectionException
 	 */
 	public List<Station> getStations() throws Itr2ConnectionException;
+	
+	/**
+	 * Retorna a estação de trem por id.
+	 * @param idStation - id da estação
+	 * @return 
+	 * @throws Itr2ConnectionException - Conexão falhor ou registro não encontrado
+	 */
+	public Station getStation(String idStation) throws Itr2ConnectionException;
 }

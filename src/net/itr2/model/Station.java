@@ -34,10 +34,35 @@ public class Station implements Serializable{
 		this.description = description;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		Station station  = (Station) obj;
-		return this.idStation == station.idStation;
-	}
+	 @Override
+	  public int hashCode() {
+	    final int prime = 31;
+	    int result = 1;
+	    result = prime * result + ((this.idStation == null) ? 0 : this.idStation.hashCode());
+	    return result;
+	  }
+	  
+	  @Override
+	  public boolean equals(Object obj) {
+	    if (this == obj)
+	      return true;
+	    if (obj == null)
+	      return false;
+	    if (getClass() != obj.getClass())
+	      return false;
+	    Station other = (Station) obj;
+	    if (this.idStation == null) {
+	      if (other.idStation != null)
+	        return false;
+	    } else if (!idStation.equals(other.idStation))
+	      return false;
+	    return true;
+	  }
+
+	  @Override
+	  public String toString() {
+	    return this.idStation+" - "+this.description;
+	  }
+	  
 
 }

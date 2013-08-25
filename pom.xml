@@ -4,13 +4,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.itr2</groupId>
 	<artifactId>ProblemOne</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>ProblemOne</name>
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<directory>bin</directory>
-		<defaultGoal>install</defaultGoal>
+		<defaultGoal>test</defaultGoal>
 		<resources>
 
 			<resource>
@@ -23,6 +23,7 @@
 		</resources>
 
 		<plugins>
+
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
@@ -34,6 +35,7 @@
 					</descriptorRefs>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -45,6 +47,32 @@
 					</archive>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.16</version>
+				<configuration>
+				    
+					<parallel>methods</parallel>
+					<threadCount>5</threadCount>
+
+					<properties>
+						<property>
+							<name>listener</name>
+							<value>net.itr2.test.ProblemOneTest</value>
+						</property>
+					</properties>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.surefire</groupId>
+						<artifactId>surefire-junit47</artifactId>
+						<version>2.16</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
 		</plugins>
 	</build>
 

@@ -9,26 +9,26 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ConnectionMemoryTest {
-	private ConnectionFactory connection;
+
 	@Before
 	public void setUp() throws Exception {
-		this.connection =  new ConnectionMemory();
-		this.testDoGetStations();
-		this.testDoGetRoutes();
 	}
 
 	@Test
 	public void testDoGetStations() throws Itr2ConnectionException {
-
+	    ConnectionFactory connection = new ConnectionMemory();
+	    System.out.println("Total de Estações:" + connection.doGetStations().size());
 		assertTrue("Ha registros na tabela de estacoes? ",
-		          ! this.connection.doGetStations().isEmpty());
+		          ! connection.doGetStations().isEmpty());
+
 	}
 
 	@Test
 	public void testDoGetRoutes() throws Itr2ConnectionException {
-	
+		ConnectionFactory connection = new ConnectionMemory();
+	    System.out.println("Total de Estações:" + connection.doGetRoutes().size());
 		assertTrue("Ha registros na tabela de Rotas? ",
-		          ! this.connection.doGetRoutes().isEmpty());
+		          ! connection.doGetRoutes().isEmpty());
 
 	}
 
