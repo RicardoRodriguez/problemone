@@ -38,12 +38,43 @@ public interface ViewFactoryInterface {
 	 */
 	public void readDestiny(List<Station> stations) throws Itr2ViewException;
 
-	public void showDistance(String message);
+	/**
+	 * Mostra a distância, se existe da rota informada
+	 * @param message Mensagem de distancia
+	 */
+	public void showDistance(String message) throws Itr2ViewException;
 	
+	/**
+	 * Mostra a lista de rotas
+	 * @param routes Lista de rotas.
+	 * @throws Itr2ViewException
+	 */
 	public void showTableRoute(List<Route> routes) throws Itr2ViewException;
 	
 	public Station getFrom();
 	
 	public Station getTo();
+
+	/**
+	 * Mostra o melhor caminho entre 2 estações
+	 * @param routes Lista de rotas selecionads
+	 * @param totalRoute Total da rota percorrida
+	 * @throws Itr2ViewException
+	 */
+	public void showBestRoute(List<Route> routes, long totalRoute) throws Itr2ViewException;
 	
+	/**
+	 * Mostra mensagem desejada
+	 * @param message mensagem
+	 * @throws Itr2ViewException
+	 */
+	public void showMessage(String message) throws Itr2ViewException;
+	
+	/**
+	 * Mostra o caminho de uma rota
+	 * @param routes Rotas
+	 * @param totalRoute distancia total da rota
+	 * @throws Itr2ViewException 
+	 */
+	public void showRoute(List<Route> routes, long totalRoute) throws Itr2ViewException;
 }

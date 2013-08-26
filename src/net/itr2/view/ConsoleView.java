@@ -21,13 +21,13 @@ public class ConsoleView implements ViewFactoryInterface {
 
 	public static final char ESC = 27;
 	public static ConsoleView instance;
-	
+
 	private static final int DEFAULT_TIME=200;
 	private Console console;
 	private Station from;
 	private Station to;
 	private ProcessOptionInterface processOptionView;
-	
+
 
 	/**
 	 * 
@@ -86,7 +86,7 @@ public class ConsoleView implements ViewFactoryInterface {
 	public void doExit() {
 		System.exit(-1);
 	}
-	
+
 	/**
 	 * Mostra o meu de opções da tela.
 	 */
@@ -101,7 +101,7 @@ public class ConsoleView implements ViewFactoryInterface {
 		console.writer().println(" 2. Definir destino da viagem ");
 		console.writer().println(" 3. Distancia entre origem e destino");
 		console.writer().println(" 4. Mostrar o melhor caminho  entre origem e destino");
-		console.writer().println(" 5. Mostrar todos os caminhos entre origem e destino");
+		console.writer().println(" 5. Mostrar os caminhos possíveis entre origem e destino");
 		console.writer().println(" 6. Limpar origem e destino");
 		console.writer().println(" 7. Mostrar a tabela de rotas");
 		printBlankLines(1);
@@ -112,8 +112,9 @@ public class ConsoleView implements ViewFactoryInterface {
 
 	/**
 	 * Lê a opção selecionada.
+	 * @throws Itr2ViewException 
 	 */
-	private void readOption(){
+	private void readOption() throws Itr2ViewException{
 		String readLine = System.console().readLine();
 		try {
 			int option = Util.toInteger(readLine);
@@ -129,8 +130,9 @@ public class ConsoleView implements ViewFactoryInterface {
 	 * 
 	 * Recarrega a tela de opcoes 
 	 * @param message
+	 * @throws Itr2ViewException 
 	 */
-	private void reloadOptions(String message){
+	private void reloadOptions(String message) throws Itr2ViewException{
 		this.showMessage(message);
 		try {
 			this.showScreen();
@@ -169,7 +171,7 @@ public class ConsoleView implements ViewFactoryInterface {
 		this.showScreen();
 
 	}
-  
+
 	public void readDestiny(List<Station> stations)
 			throws Itr2ViewException {
 		this.to = processReadLine(stations, this.to, this.from);
@@ -196,7 +198,7 @@ public class ConsoleView implements ViewFactoryInterface {
 		return selected;
 
 	}
-	
+
 	/**
 	 * Verifica a opção de estação escolhida
 	 * @param stations Lista de Estações
@@ -205,9 +207,9 @@ public class ConsoleView implements ViewFactoryInterface {
 	 */
 	private Station checkStation(List<Station> stations,String id, Station notSelected){
 		Station result = new Station();
-	
+
 		id = id.equalsIgnoreCase(notSelected.getIdStation()) ? "":id;
-		
+
 		for(Station station: stations){
 			if (id.equals(station.getIdStation())){
 				result = station;
@@ -215,7 +217,7 @@ public class ConsoleView implements ViewFactoryInterface {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Mostra as opções de estações exceto uma já escolhida
 	 * @param stations - Lista de estações
@@ -229,23 +231,19 @@ public class ConsoleView implements ViewFactoryInterface {
 		}
 	}
 
-	private void showMessage(String message){
+	public void showMessage(String message) throws Itr2ViewException{
 		this.printBlankLines(1);
 		console.writer().println(message);
 		this.pause();
-		try {
-			this.showScreen();
-		} catch (Itr2ViewException e) {
-			e.printStackTrace();
-		}
+		this.showScreen();
 	}
-	
+
 	private void pause(){
 		this.printBlankLines(1);
 		console.writer().println("Pressione <Enter> para continuar." );
 		System.console().readLine();
 	}
-	
+
 	public Station getFrom() {
 		return from;
 	}
@@ -254,23 +252,39 @@ public class ConsoleView implements ViewFactoryInterface {
 		return to;
 	}
 
-	public void showDistance(String message){
+	public void showDistance(String message) throws Itr2ViewException{
 		showMessage(message);
 	}
 
 	public void showTableRoute(List<Route> routes) throws Itr2ViewException {
-		this.printBlankLines(1);
-		String line;
-		for (Route route: routes){
-			line = " da Estacao " + route.getOrigin() + " para a Estacao " +
-						route.getDestiny() + ": Distancia-> " + route.getDistance();
-			console.writer().println(line);
-		}
+		doShowRoutes(routes);
 		this.pause();
 		this.showScreen();
 	}
 
+	private void doShowRoutes(List<Route> routes) {
+		this.printBlankLines(1);
+		String line;
+		for (Route route: routes){
+			line = " da Estacao " + route.getOrigin() + " para a Estacao " +
+					route.getDestiny() + ": Distancia-> " + route.getDistance();
+			console.writer().println(line);
+		}
+	}
+
+	public void showBestRoute(List<Route> routes, long totalRoute) throws Itr2ViewException {
+		this.doShowRoutes(routes);
+		this.showMessage("Total do percurso: "+totalRoute);
+	}
 
 
+	public void showRoute(List<Route> routes, long totalRoute) throws Itr2ViewException {
+		this.doShowRoutes(routes);
+		this.printBlankLines(1);
+		console.writer().println("Total do percurso: "+totalRoute);
+		console.writer().println("----------------------------");
+		this.printBlankLines(1);
+	}
 
+	
 }

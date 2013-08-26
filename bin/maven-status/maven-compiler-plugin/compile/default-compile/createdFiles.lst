@@ -6,13 +6,15 @@ net/itr2/control/RailMapPathCalculator.class
 net/itr2/control/RailMapController.class
 net/itr2/exception/Itr2ViewException.class
 net/itr2/exception/Itr2ConnectionException.class
+net/itr2/control/RouteMapControllerInterface.class
 net/itr2/control/StationControllerInterface.class
 net/itr2/control/RouteControllerInterface.class
 net/itr2/util/Util.class
 net/itr2/connection/ConnectionFactory.class
 net/itr2/test/AllTests.class
-net/itr2/connection/LoadDataMemory.class
+net/itr2/control/RouteMapController.class
 net/itr2/control/RailMapPathCalculatorInterface.class
+net/itr2/connection/LoadDataMemory.class
 net/itr2/model/Edge.class
 net/itr2/model/Route.class
 net/itr2/control/StationController.class
@@ -23,5 +25,5 @@ net/itr2/model/RailMap.class
 net/itr2/control/RouteController.class
 net/itr2/view/ViewFactoryInterface.class
 net/itr2/test/ConnectionMemoryTest.class
-net/itr2/control/RailMapControllerInterface.class
 net/itr2/main/Start.class
+net/itr2/control/RailMapControllerInterface.class

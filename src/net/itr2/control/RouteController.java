@@ -38,4 +38,15 @@ public class RouteController implements RouteControllerInterface{
 		return connection.doGetRoutes();
 	}
 
+	public Route getRoute(String idRoute) throws Itr2ConnectionException{
+		Route result = new Route();
+		for (Route route: this.getAllRoutes()){
+			if (route.getIdRoute().equalsIgnoreCase(idRoute)){
+				result = route;
+				break;
+			}
+		}
+		return result;
+	}
+	
 }

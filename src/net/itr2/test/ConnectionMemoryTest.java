@@ -26,7 +26,7 @@ public class ConnectionMemoryTest {
 	@Test
 	public void testDoGetRoutes() throws Itr2ConnectionException {
 		ConnectionFactory connection = new ConnectionMemory();
-	    System.out.println("Total de Estações:" + connection.doGetRoutes().size());
+	    System.out.println("Total de Rotas:" + connection.doGetRoutes().size());
 		assertTrue("Ha registros na tabela de Rotas? ",
 		          ! connection.doGetRoutes().isEmpty());
 

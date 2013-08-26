@@ -10,7 +10,7 @@
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<directory>bin</directory>
-		<defaultGoal>test</defaultGoal>
+		<defaultGoal>install</defaultGoal>
 		<resources>
 
 			<resource>

@@ -20,10 +20,12 @@ public class RailMapPathCalculator implements RailMapPathCalculatorInterface{
 	private Set<Station> unSettledNodes;
 	private Map<Station, Station> predecessors;
 	private Map<Station, Integer> distance;
+	private List<String> mapNodes;
 
 	public RailMapPathCalculator(RailMap railMap) {
 		// Cria uma  copia do array de Vertices das rotas
 		this.edges = new ArrayList<Edge>(railMap.getEdges());
+		
 	}
 
 	/**
@@ -43,6 +45,26 @@ public class RailMapPathCalculator implements RailMapPathCalculatorInterface{
 			unSettledNodes.remove(node);
 			findMinimalDistances(node);
 		}
+	}
+
+	public List<String> doGetAllPaths(Station source, Station target){
+	  mapNodes = new ArrayList<String>();
+	  Station node = source;
+	  String key = node.getIdStation();
+	  getAllNodes(key, node, target);
+	  return mapNodes;
+	}
+
+	private void getAllNodes(String key, Station node, Station target) {
+		  List<Station> adjacentNodes = getNeighbors(node);
+		  for (Station station: adjacentNodes){
+			  key+= node.getIdStation();
+			  mapNodes.add(key);
+			  if (key.equalsIgnoreCase(target.getIdStation())){
+				  break;
+			  }
+			  getAllNodes(key,station,target);
+		  }
 	}
 
 	private void findMinimalDistances(Station node) {
@@ -107,7 +129,7 @@ public class RailMapPathCalculator implements RailMapPathCalculatorInterface{
 		}
 	}
 
-
+	
 	public LinkedList<Station> getPath(Station target) {
 		LinkedList<Station> path = new LinkedList<Station>();
 		Station step = target;
