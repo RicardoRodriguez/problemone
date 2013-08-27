@@ -1,3 +1,4 @@
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
@@ -53,14 +54,14 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.16</version>
 				<configuration>
-				    
+				    <groups>net.itr2.test</groups>
 					<parallel>methods</parallel>
 					<threadCount>5</threadCount>
 
 					<properties>
 						<property>
 							<name>listener</name>
-							<value>net.itr2.test.ProblemOneTest</value>
+							<value>net.itr2.test.AllTests</value>
 						</property>
 					</properties>
 				</configuration>

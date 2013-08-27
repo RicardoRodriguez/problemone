@@ -7,6 +7,7 @@ import net.itr2.exception.Itr2ConnectionException;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 public class ConnectionMemoryTest {
 
@@ -15,6 +16,7 @@ public class ConnectionMemoryTest {
 	}
 
 	@Test
+	@Category(net.itr2.test.AllTests.class)
 	public void testDoGetStations() throws Itr2ConnectionException {
 	    ConnectionFactory connection = new ConnectionMemory();
 	    System.out.println("Total de Estações:" + connection.doGetStations().size());
@@ -24,6 +26,7 @@ public class ConnectionMemoryTest {
 	}
 
 	@Test
+	@Category(net.itr2.test.AllTests.class)
 	public void testDoGetRoutes() throws Itr2ConnectionException {
 		ConnectionFactory connection = new ConnectionMemory();
 	    System.out.println("Total de Rotas:" + connection.doGetRoutes().size());

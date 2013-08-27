@@ -48,5 +48,13 @@ public class RouteMapController implements RouteMapControllerInterface{
 		return totalRouteMap;
 	}
 
-	
+	@Override
+	public String toString(){
+		String result = "";
+		for(Route route: this.doGetRoutes()){
+			result +=route.getOrigin()+"->"+route.getDestiny()+"->";
+		}
+		result +=  this.doGetTotalRouteMap();
+		return result;
+	}
 }

@@ -101,7 +101,7 @@ public class ConsoleView implements ViewFactoryInterface {
 		console.writer().println(" 2. Definir destino da viagem ");
 		console.writer().println(" 3. Distancia entre origem e destino");
 		console.writer().println(" 4. Mostrar o melhor caminho  entre origem e destino");
-		console.writer().println(" 5. Mostrar os caminhos poss’veis entre origem e destino");
+		console.writer().println(" 5. Mostrar os caminhos possiveis entre origem e destino");
 		console.writer().println(" 6. Limpar origem e destino");
 		console.writer().println(" 7. Mostrar a tabela de rotas");
 		printBlankLines(1);

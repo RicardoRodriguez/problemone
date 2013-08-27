@@ -1,6 +1,7 @@
 package net.itr2.control;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import net.itr2.exception.Itr2ConnectionException;
@@ -17,13 +18,12 @@ public interface RailMapControllerInterface {
 	 */
 	public LinkedList<Station> doExecute(Station origin,Station target) throws Itr2ConnectionException;
 
-	
 	/**
-	 * Retorna a Rota a partir da Chave informada.
-	 * @param key chave do registro.
-	 * @return
+	 * Retorna a Rota Completa a partir das estações informadas.
+	 * @param origin - Estação Origem
+	 * @param target - Estação Destino
+	 * @return Lista de Rotas.
 	 * @throws Itr2ConnectionException
 	 */
-
-	public Map<Integer, RouteMapController> doGetAllRoutes(Station origin, Station target) throws Itr2ConnectionException;
+	public List<RouteMapController> doGetAllRoutes(Station origin, Station target) throws Itr2ConnectionException;
 }

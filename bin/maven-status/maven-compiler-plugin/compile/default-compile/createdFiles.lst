@@ -18,6 +18,7 @@ net/itr2/connection/LoadDataMemory.class
 net/itr2/model/Edge.class
 net/itr2/model/Route.class
 net/itr2/control/StationController.class
+net/itr2/test/RailMapAllRoutes.class
 net/itr2/exception/Itr2ParameterException.class
 net/itr2/test/RailMapTest.class
 net/itr2/view/ConsoleView.class

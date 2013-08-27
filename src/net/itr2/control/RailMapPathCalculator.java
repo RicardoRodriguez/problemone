@@ -25,7 +25,7 @@ public class RailMapPathCalculator implements RailMapPathCalculatorInterface{
 	public RailMapPathCalculator(RailMap railMap) {
 		// Cria uma  copia do array de Vertices das rotas
 		this.edges = new ArrayList<Edge>(railMap.getEdges());
-		
+
 	}
 
 	/**
@@ -33,47 +33,53 @@ public class RailMapPathCalculator implements RailMapPathCalculatorInterface{
 	 * @param source Estação origem
 	 */
 	public void execute(Station source) {
-		settledNodes = new HashSet<Station>();
-		unSettledNodes = new HashSet<Station>();
-		distance = new HashMap<Station, Integer>();
-		predecessors = new HashMap<Station, Station>();
-		distance.put(source, 0);
-		unSettledNodes.add(source);
+		initializeVariables(source);
 		while (unSettledNodes.size() > 0) {
-			Station node = getMinimum(unSettledNodes);
+			Station node = doGetMinimum(unSettledNodes);
 			settledNodes.add(node);
 			unSettledNodes.remove(node);
 			findMinimalDistances(node);
 		}
 	}
 
-	public List<String> doGetAllPaths(Station source, Station target){
-	  mapNodes = new ArrayList<String>();
-	  Station node = source;
-	  String key = node.getIdStation();
-	  getAllNodes(key, node, target);
-	  return mapNodes;
+	private void initializeVariables(Station source) {
+		settledNodes = new HashSet<Station>();
+		unSettledNodes = new HashSet<Station>();
+		distance = new HashMap<Station, Integer>();
+		predecessors = new HashMap<Station, Station>();
+		distance.put(source, 0);
+		unSettledNodes.add(source);
+		mapNodes = new ArrayList<String>();
 	}
 
-	private void getAllNodes(String key, Station node, Station target) {
-		  List<Station> adjacentNodes = getNeighbors(node);
-		  for (Station station: adjacentNodes){
-			  key+= node.getIdStation();
-			  mapNodes.add(key);
-			  if (key.equalsIgnoreCase(target.getIdStation())){
-				  break;
-			  }
-			  getAllNodes(key,station,target);
-		  }
+	public List<String> doGetAllPaths(Station source, Station target){
+		initializeVariables(source);
+		Station node = source;
+		String key = node.getIdStation();
+		doGetAllNodes(key, node, target);
+		return mapNodes;
+	}
+	
+	private void doGetAllNodes(String key, Station node, Station target) {
+		List<Station> adjacentNodes = doGetNeighbors(node);
+		for (Station station: adjacentNodes){
+			String keyNode = key + station.getIdStation();
+			if (keyNode != null)
+				mapNodes.add(keyNode);
+			if (station.getIdStation().equalsIgnoreCase(target.getIdStation())){
+				break;
+			}
+			doGetAllNodes(keyNode,station,target);
+		}
 	}
 
 	private void findMinimalDistances(Station node) {
-		List<Station> adjacentNodes = getNeighbors(node);
+		List<Station> adjacentNodes = doGetNeighbors(node);
 		for (Station target : adjacentNodes) {
-			if (getShortestDistance(target) > getShortestDistance(node)
-					+ getDistance(node, target)) {
-				distance.put(target, getShortestDistance(node)
-						+ getDistance(node, target));
+			if (doGetShortestDistance(target) > doGetShortestDistance(node)
+					+ doGetDistance(node, target)) {
+				distance.put(target, doGetShortestDistance(node)
+						+ doGetDistance(node, target));
 				predecessors.put(target, node);
 				unSettledNodes.add(target);
 			}
@@ -81,7 +87,7 @@ public class RailMapPathCalculator implements RailMapPathCalculatorInterface{
 
 	}
 
-	private int getDistance(Station node, Station target) {
+	private int doGetDistance(Station node, Station target) {
 		for (Edge edge : edges) {
 			if (edge.getSource().equals(node)
 					&& edge.getDestination().equals(target)) {
@@ -91,7 +97,7 @@ public class RailMapPathCalculator implements RailMapPathCalculatorInterface{
 		throw new RuntimeException("Should not happen");
 	}
 
-	private List<Station> getNeighbors(Station node) {
+	private List<Station> doGetNeighbors(Station node) {
 		List<Station> neighbors = new ArrayList<Station>();
 		for (Edge edge : edges) {
 			if (edge.getSource().equals(node)
@@ -102,13 +108,13 @@ public class RailMapPathCalculator implements RailMapPathCalculatorInterface{
 		return neighbors;
 	}
 
-	private Station getMinimum(Set<Station> stationes) {
+	private Station doGetMinimum(Set<Station> stationes) {
 		Station minimum = null;
 		for (Station station : stationes) {
 			if (minimum == null) {
 				minimum = station;
 			} else {
-				if (getShortestDistance(station) < getShortestDistance(minimum)) {
+				if (doGetShortestDistance(station) < doGetShortestDistance(minimum)) {
 					minimum = station;
 				}
 			}
@@ -120,7 +126,7 @@ public class RailMapPathCalculator implements RailMapPathCalculatorInterface{
 		return settledNodes.contains(station);
 	}
 
-	private int getShortestDistance(Station destination) {
+	private int doGetShortestDistance(Station destination) {
 		Integer d = distance.get(destination);
 		if (d == null) {
 			return Integer.MAX_VALUE;
@@ -129,11 +135,11 @@ public class RailMapPathCalculator implements RailMapPathCalculatorInterface{
 		}
 	}
 
-	
+
 	public LinkedList<Station> getPath(Station target) {
 		LinkedList<Station> path = new LinkedList<Station>();
 		Station step = target;
-		
+
 		// Verifica se o caminho existe.
 		if (predecessors.get(step) == null) {
 			return null;

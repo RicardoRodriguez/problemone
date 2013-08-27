@@ -46,11 +46,11 @@ public class ProcessOptionView implements ProcessOptionInterface{
 		case 4:
 			this.showBestWay(viewer);
 			break;
-			
+
 		case 5:	
 			this.showAllWays(viewer);
 			break;
-			
+
 		case 6:
 			viewer.clearFromTo();
 			break;
@@ -69,25 +69,25 @@ public class ProcessOptionView implements ProcessOptionInterface{
 			return;
 		}
 		try {
-		RailMapControllerInterface rail = new RailMapController();
-		Map<Integer, RouteMapController> 
-		routes = rail.doGetAllRoutes(viewer.getFrom(), viewer.getTo());
-		for(RouteMapControllerInterface routeMap: routes.values() ){
-			viewer.showRoute(routeMap.doGetRoutes(),routeMap.doGetTotalRouteMap());
-		}
-		viewer.showMessage("TŽrmino das Rotas");
+			RailMapControllerInterface rail = new RailMapController();
+			List <RouteMapController> 
+			routes = rail.doGetAllRoutes(viewer.getFrom(), viewer.getTo());
+			for(RouteMapControllerInterface routeMap: routes ){
+				viewer.showRoute(routeMap.doGetRoutes(),routeMap.doGetTotalRouteMap());
+			}
+			viewer.showMessage("Termino das Rotas");
 		} catch (Itr2ConnectionException e) {
 			new Itr2ViewException("N‹o foi possivel mostrar todas as rotas. Erro:"+ e.getMessage());
 		}
-	
+
 	}
-	
+
 	private void showBestWay(ViewFactoryInterface viewer) throws Itr2ViewException{
-		
+
 		if (! this.checkStations(viewer)) {
 			return;
 		}
-		
+
 		RailMapControllerInterface rail = new RailMapController();
 
 		try {
@@ -120,10 +120,10 @@ public class ProcessOptionView implements ProcessOptionInterface{
 		}
 		return  result;
 	}
-	
+
 	private void showDistance(ViewFactoryInterface viewer) throws Itr2ViewException{
 		RouteControllerInterface route = new RouteController();
-		
+
 		String result="";
 		if (! this.checkStations(viewer)) {
 			return;

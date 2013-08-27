@@ -5,7 +5,9 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses(value = { ConnectionMemoryTest.class, RailMapTest.class })
+@SuiteClasses(value = { ConnectionMemoryTest.class, 
+						RailMapTest.class, 
+						RailMapAllRoutes.class })
 public class AllTests {
 
 }
